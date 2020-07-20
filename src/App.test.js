@@ -610,9 +610,12 @@ const episodesData = {
 
 
 
-test('App render correctly when mounting', () => {
+test('App render correctly when mounting', async () => {
     mockFetchShow.mockResolvedValueOnce(episodesData);
-    render(<App />);
+
+    await act(async () => {
+        render(<App />);
+    });
 })
 
 test('data is fetched and rendered correctly when a season is selected', async () => {
