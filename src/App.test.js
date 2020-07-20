@@ -3,6 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from './App'
 import { fetchShow as mockFetchShow} from './api/fetchShow'
+import { act } from 'react-dom/test-utils'
 
 jest.mock('./api/fetchShow');
 
@@ -614,10 +615,13 @@ test('App render correctly when mounting', () => {
     render(<App />);
 })
 
-test('data is fetched and rendered correctly', async () => {
+test('data is fetched and rendered correctly when a season is selected', async () => {
     mockFetchShow.mockResolvedValueOnce(episodesData);
 
-    render(<App />);
+
+    await act(async () => {
+        render(<App />);
+    });
     // screen.debug();
 
     const title = await screen.findAllByText(/stranger things/i);
@@ -625,16 +629,24 @@ test('data is fetched and rendered correctly', async () => {
     expect(title).toHaveLength(2)
 
 
-    // userEvent.click(screen.findByText(/select a season/i))
+    
+
+    expect(screen.getByText(/select a season/i)).toBeInTheDocument();
+    
+    userEvent.click(screen.getByText(/select a season/i))
 
     // userEvent.click(screen.findByText(/season 1/i));
 
+    await waitFor(() => {
+        userEvent.click(screen.getByText(/season 1/i));
+    })
+
+    expect(screen.getByText(/season 1, episode 1/i)).toBeInTheDocument();
+
     // await waitFor(async() => {
     //     await render(<App />);
-    //     expect(await screen.findByText(/season 1, episode 1/i)).toBeInTheDocument();
+    //     expect(await screen.getAllByRole('option')[0]).toBeInTheDocument();
     // });
     // expect(mockFetchShow).toHaveBeenCalledTimes(1);
-
-    
 
 })
