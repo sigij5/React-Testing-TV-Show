@@ -622,9 +622,8 @@ test('data is fetched and rendered correctly when a season is selected', async (
     mockFetchShow.mockResolvedValueOnce(episodesData);
 
 
-    await act(async () => {
+
         render(<App />);
-    });
     // screen.debug();
 
     const title = await screen.findAllByText(/stranger things/i);
@@ -641,10 +640,10 @@ test('data is fetched and rendered correctly when a season is selected', async (
     // userEvent.click(screen.findByText(/season 1/i));
 
     await waitFor(() => {
-        userEvent.click(screen.getByText(/season 1/i));
+        userEvent.click(screen.getByText(/season 2/i));
     })
 
-    expect(screen.getByText(/season 1, episode 1/i)).toBeInTheDocument();
+    expect(screen.getByText(/season 2, episode 1/i)).toBeInTheDocument();
 
     // await waitFor(async() => {
     //     await render(<App />);

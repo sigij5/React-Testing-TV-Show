@@ -560,5 +560,6 @@ test('Displays episode as the episodes prop is updated with a new season', () =>
 
 
     rerender(<Episodes episodes={episodeData} />)
-    expect(screen.findByText(/season 1, episode 1/i).toBeInTheDocument());
+
+    expect(screen.getByText(/season 2, episode 1/i)).toBeInTheDocument();
 });
